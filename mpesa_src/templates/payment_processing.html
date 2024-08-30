@@ -1,0 +1,35 @@
+<!-- payment_processing.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Processing Payment...</title>
+    <script>
+      function checkPaymentStatus() {
+        console.log("Checking payment status...");
+        fetch("/check_payment_status/", {
+          method: "GET",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Payment status:", data.status);
+            if (data.status === "paid") {
+              alert("Paid");
+              window.location.href = "/paid/";
+            } else if (data.status === "failed") {
+              alert("Error");
+              window.location.href = "/error/";
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      }
+
+      setInterval(checkPaymentStatus, 5000);
+      console.log("Interval set");
+    </script>
+  </head>
+  <body>
+    <h1>Processing your payment, please wait...</h1>
+  </body>
+</html>
